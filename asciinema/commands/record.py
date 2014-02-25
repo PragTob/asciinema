@@ -23,14 +23,17 @@ class RecordCommand(object):
 
     def execute(self):
         asciicast = self._record_asciicast()
-        data_file = open('data_my_cast', 'w')
-        timing_file = open('timing_my_cast', 'w')
-        # print asciicast.stdout.__class__.__name__
-        # json.dump(asciicast, file)
+        data_file = open('stdout_data', 'w')
+        timing_file = open('stdout_timing', 'w')
+        meta_data_file = open('meta_data', 'w')
         data_file.write(asciicast.stdout.data)
         timing_file.write(asciicast.stdout.timing)
+        meta_data = asciicast.meta_data
+        # might need to use the data/list thingy there instead of just meta_data
+        json.dump(meta_data, meta_data_file)
         data_file.close()
         timing_file.close()
+        meta_data_file.close()
         self._upload_asciicast(asciicast)
 
     def _record_asciicast(self):
