@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import json
 
 from asciinema.recorder import Recorder
 from asciinema.uploader import Uploader, ServerMaintenanceError, ResourceNotFoundError
@@ -10,6 +11,7 @@ class RecordCommand(object):
 
     def __init__(self, api_url, api_token, cmd, title, skip_confirmation,
                  recorder=None, uploader=None, confirmator=None):
+        print api_url
         self.api_url = api_url
         self.api_token = api_token
         self.cmd = cmd
@@ -21,6 +23,14 @@ class RecordCommand(object):
 
     def execute(self):
         asciicast = self._record_asciicast()
+        data_file = open('data_my_cast', 'w')
+        timing_file = open('timing_my_cast', 'w')
+        # print asciicast.stdout.__class__.__name__
+        # json.dump(asciicast, file)
+        data_file.write(asciicast.stdout.data)
+        timing_file.write(asciicast.stdout.timing)
+        data_file.close()
+        timing_file.close()
         self._upload_asciicast(asciicast)
 
     def _record_asciicast(self):
@@ -40,6 +50,7 @@ class RecordCommand(object):
         return asciicast
 
     def _upload_asciicast(self, asciicast):
+        print self.api_url
         if self._upload_confirmed():
             print('~ Uploading...')
             try:
