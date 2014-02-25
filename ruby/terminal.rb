@@ -4,9 +4,10 @@
 
 class Terminal
 
-  BINARY_PATH = ("terminal").to_s
+  BINARY_PATH = File.dirname(File.expand_path(__FILE__)) + '/terminal'
 
   def initialize(width, height)
+    puts BINARY_PATH
     @process = Process.new("#{BINARY_PATH} #{width} #{height}")
   end
 
