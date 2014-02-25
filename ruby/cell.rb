@@ -2,8 +2,6 @@ class Cell
 
   attr_reader :text, :brush
 
-  delegate :size, :to => :text
-
   def initialize(text, brush)
     @text = text
     @brush = brush
@@ -23,6 +21,10 @@ class Cell
 
   def as_json(*)
     [text, brush.as_json]
+  end
+
+  def size
+    text.size
   end
 
 end

@@ -2,7 +2,7 @@ require 'open3'
 
 class Terminal
 
-  BINARY_PATH = (Rails.root + "bin" + "terminal").to_s
+  BINARY_PATH = ("terminal").to_s
 
   def initialize(width, height)
     @process = Process.new("#{BINARY_PATH} #{width} #{height}")
