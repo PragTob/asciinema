@@ -4,6 +4,7 @@ require 'yajl'
 require 'active_model_serializers'
 require 'active_support/all'
 
+# fed up, dunno where this method comes from, implement it myself
 class Array
   def as_json(*)
     map &:as_json
