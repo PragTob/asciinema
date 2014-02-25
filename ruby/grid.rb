@@ -8,7 +8,7 @@ class Grid
 
   def initialize(lines)
     @lines = lines
-    @width = lines.first && lines.first.sum(&:size) || 0
+    @width = lines.first && lines.first.inject(0){|sum, e| sum + e.size } || 0
     @height = lines.size
   end
 

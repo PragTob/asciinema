@@ -1,4 +1,15 @@
 require 'json'
+require 'open3'
+require 'yajl'
+require 'active_model_serializers'
+require 'active_support/all'
+
+class Array
+  def as_json(*)
+    map &:as_json
+  end
+end
+
 require_relative 'stdout'
 
 
@@ -13,6 +24,7 @@ require_relative 'cursor'
 require_relative 'film'
 require_relative 'frame'
 require_relative 'frame_diff'
+require_relative 'frame_diff_list'
 require_relative 'grid'
 require_relative 'json_file_writer'
 require_relative 'snapshot'
@@ -24,19 +36,3 @@ asciicast = Asciicast.new directory + '/stdout_data',
                           directory + '/stdout_timing',
                           directory + '/meta_data'
 AsciicastProcessor.new.process asciicast
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

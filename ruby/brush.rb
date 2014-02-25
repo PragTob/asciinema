@@ -9,7 +9,14 @@ class Brush
   DEFAULT_BG_CODE = 0
 
   def initialize(attributes = {})
-    @attributes = attributes.symbolize_keys
+    @attributes = symbolize_keys attributes
+  end
+
+  def symbolize_keys(hash)
+    hash.inject({}) do |new_hash, (key,value)|
+      new_hash[key.to_sym] = value
+      new_hash
+    end
   end
 
   def ==(other)

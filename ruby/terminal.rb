@@ -1,13 +1,12 @@
 # Original code by Copyright (c) 2011-2012 Marcin Kulik
 # Imported from https://github.com/sickill/asciinema.org
-# Code license MIT, see MIT.txt for detailsrequire 'open3'
+# Code license MIT, see MIT.txt for details
 
 class Terminal
 
   BINARY_PATH = File.dirname(File.expand_path(__FILE__)) + '/terminal'
 
   def initialize(width, height)
-    puts BINARY_PATH
     @process = Process.new("#{BINARY_PATH} #{width} #{height}")
   end
 
