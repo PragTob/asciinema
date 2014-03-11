@@ -1,6 +1,7 @@
 import sys
 import subprocess
 import json
+import os
 
 from asciinema.recorder import Recorder
 from asciinema.uploader import Uploader, ServerMaintenanceError, ResourceNotFoundError
@@ -11,7 +12,6 @@ class RecordCommand(object):
 
     def __init__(self, api_url, api_token, cmd, title, skip_confirmation,
                  recorder=None, uploader=None, confirmator=None):
-        print api_url
         self.api_url = api_url
         self.api_token = api_token
         self.cmd = cmd
@@ -23,18 +23,32 @@ class RecordCommand(object):
 
     def execute(self):
         asciicast = self._record_asciicast()
-        data_file = open('stdout_data', 'w')
-        timing_file = open('stdout_timing', 'w')
-        meta_data_file = open('meta_data', 'w')
+        should_upload = self.confirmator.confirm("~ Do you want to upload the recording? [Y/n] ")
+        if should_upload:
+            self._upload_asciicast(asciicast)
+        else:
+            print('Yolo?')
+            self._save_locally(asciicast)
+
+    def _save_locally(self, asciicast):
+        print('Saving locally...')
+        print('What should be the name of your recording?')
+        record_name = sys.stdin.readline().strip()
+        if not os.path.exists(record_name): os.mkdir(record_name)
+        save_prefix = record_name + '/' + record_name + '-'
+        self._save_files(save_prefix, asciicast)
+
+    def _save_files(self, save_prefix, asciicast):
+        data_file = open(save_prefix + 'stdout_data', 'w')
+        timing_file = open(save_prefix + 'stdout_timing', 'w')
+        meta_data_file = open(save_prefix + 'meta_data.json', 'w')
         data_file.write(asciicast.stdout.data)
         timing_file.write(asciicast.stdout.timing)
         meta_data = asciicast.meta_data
-        # might need to use the data/list thingy there instead of just meta_data
         json.dump(meta_data, meta_data_file)
         data_file.close()
         timing_file.close()
         meta_data_file.close()
-        self._upload_asciicast(asciicast)
 
     def _record_asciicast(self):
         self._reset_terminal()
@@ -53,7 +67,6 @@ class RecordCommand(object):
         return asciicast
 
     def _upload_asciicast(self, asciicast):
-        print self.api_url
         if self._upload_confirmed():
             print('~ Uploading...')
             try:
