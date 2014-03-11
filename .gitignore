@@ -6,3 +6,4 @@ tmp
 *.zip
 *.egg-info
 /build
+.bundle
