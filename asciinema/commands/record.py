@@ -27,7 +27,6 @@ class RecordCommand(object):
         if should_upload:
             self._upload_asciicast(asciicast)
         else:
-            print('Yolo?')
             self._save_locally(asciicast)
 
     def _save_locally(self, asciicast):
@@ -35,13 +34,13 @@ class RecordCommand(object):
         print('What should be the name of your recording?')
         record_name = sys.stdin.readline().strip()
         if not os.path.exists(record_name): os.mkdir(record_name)
-        save_prefix = record_name + '/' + record_name + '-'
-        self._save_files(save_prefix, asciicast)
+        folder = record_name + '/'
+        self._save_files(folder, asciicast)
 
-    def _save_files(self, save_prefix, asciicast):
-        data_file = open(save_prefix + 'stdout_data', 'w')
-        timing_file = open(save_prefix + 'stdout_timing', 'w')
-        meta_data_file = open(save_prefix + 'meta_data.json', 'w')
+    def _save_files(self, folder, asciicast):
+        data_file = open(folder + 'stdout_data', 'w')
+        timing_file = open(folder + 'stdout_timing', 'w')
+        meta_data_file = open(folder + 'meta_data.json', 'w')
         data_file.write(asciicast.stdout.data)
         timing_file.write(asciicast.stdout.timing)
         meta_data = asciicast.meta_data
