@@ -56,7 +56,7 @@ class Brush
   end
 
   def as_json(*)
-    attributes.slice(*ALLOWED_ATTRIBUTES)
+    attributes.slice(*ALLOWED_ATTRIBUTES).to_json
   end
 
   protected
