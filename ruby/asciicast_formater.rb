@@ -33,7 +33,9 @@ require_relative 'terminal'
 require_relative 'timing_parser'
 
 directory = ARGV.first
-asciicast = Asciicast.new directory + '/stdout_data',
-                          directory + '/stdout_timing',
-                          directory + '/meta_data'
+asciicast = Asciicast.new directory + 'stdout_data',
+                          directory + 'stdout_timing',
+                          directory + 'meta_data.json'
+
+# TODO snapshot, keys are still symbols not strings/proper json
 AsciicastProcessor.new.process asciicast

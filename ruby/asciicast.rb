@@ -26,12 +26,11 @@ class Asciicast
   end
 
   def snapshot=(snap)
-    puts snap.class
-    File.write('snapshot', snap.as_json)
+    File.write(file_save_path + '/snapshot', snap.as_json)
   end
 
   def stdout_frames=(stdout_file)
-    File.write('stdout_frames', stdout_file.open.read)
+    File.write(file_save_path + '/stdout_frames', stdout_file.open.read)
   end
 
   def read_meta_data(meta_data_path)
@@ -40,5 +39,10 @@ class Asciicast
     self.terminal_lines   = terminal_data['lines']
     self.terminal_columns = terminal_data['columns']
     self.duration         = data['duration']
+  end
+
+  private
+  def file_save_path
+    File.dirname(@stdout_data_path)
   end
 end
