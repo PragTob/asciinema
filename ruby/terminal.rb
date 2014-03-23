@@ -4,7 +4,11 @@
 
 class Terminal
 
-  BINARY_PATH = File.dirname(File.expand_path(__FILE__)) + '/terminal'
+  if RbConfig::CONFIG['host_os'] =~ /darwin/
+    BINARY_PATH = File.dirname(File.expand_path(__FILE__)) + '/terminal-osx'
+  else
+    BINARY_PATH = File.dirname(File.expand_path(__FILE__)) + '/terminal'
+  end
 
   def initialize(width, height)
     @process = Process.new("#{BINARY_PATH} #{width} #{height}")
